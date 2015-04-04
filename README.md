@@ -1,2 +1,2 @@
 # jullerene
-A java graph library
+A Java graph library

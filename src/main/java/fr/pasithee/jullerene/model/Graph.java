@@ -3,15 +3,15 @@ package fr.pasithee.jullerene.model;
 import java.util.*;
 
 public class Graph {
-    private final int nb_vertices;
+    private final int nbVertices;
     private final List<Vertex> vertices;
     private final Map<Vertex, Set<Edge>> edges;
 
-    public Graph(int nb_vertices) {
-        this.nb_vertices = nb_vertices;
-        vertices = new ArrayList<>(nb_vertices);
+    public Graph(int nbVertices) {
+        this.nbVertices = nbVertices;
+        vertices = new ArrayList<>(nbVertices);
         edges = new HashMap<>();
-        for (int i = 0; i < nb_vertices; i++) {
+        for (int i = 0; i < nbVertices; i++) {
             Vertex v = new Vertex(i);
             vertices.add(v);
             edges.put(v, new HashSet<Edge>());
@@ -80,8 +80,8 @@ public class Graph {
     }
 
     private void validateVertex(int i) {
-        if (i >= nb_vertices) {
-            throw new IllegalArgumentException("You asked for vertex " + i + " but graph only has " + nb_vertices + "vertices.");
+        if (i >= nbVertices) {
+            throw new IllegalArgumentException("You asked for vertex " + i + " but graph only has " + nbVertices + "vertices.");
         }
     }
 
@@ -90,13 +90,17 @@ public class Graph {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Graph graph = (Graph) o;
-        return Objects.equals(nb_vertices, graph.nb_vertices) &&
+        return Objects.equals(nbVertices, graph.nbVertices) &&
                 Objects.equals(vertices, graph.vertices) &&
                 Objects.equals(edges, graph.edges);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nb_vertices, vertices, edges);
+        return Objects.hash(nbVertices, vertices, edges);
+    }
+
+    public int getNbVertices() {
+        return nbVertices;
     }
 }

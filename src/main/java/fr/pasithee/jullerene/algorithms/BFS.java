@@ -19,7 +19,7 @@ public class BFS extends Traversing {
         Deque<Vertex> queue = new LinkedList<>();
         int lastVisited = -1;
         for(int i = 0; i<visitOrder.length; i++) {
-            if(visitOrder[i] == NOT_VISITED) {
+            if(visitOrder[i] == NOT_VISITED && queue.isEmpty()) {
                 queue.add(graph.get(i));
             } else if (visitOrder[i] > lastVisited) {
                 lastVisited = lastVisited + 1;

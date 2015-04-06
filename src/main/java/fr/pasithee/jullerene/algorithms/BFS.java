@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 import static fr.pasithee.jullerene.model.Constants.NOT_VISITED;
 
-public class BFS extends Traversing {
+public class BFS extends Traversal {
     public BFS(Graph graph) {
         super(graph);
     }

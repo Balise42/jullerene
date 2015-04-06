@@ -1,20 +1,29 @@
 package fr.pasithee.jullerene.algorithms;
 
+import fr.pasithee.jullerene.model.Constants;
 import fr.pasithee.jullerene.model.Graph;
 
+/** Connectivity algorithms for {@link Graph}*/
 public class Connectivity {
+    /** Graph to which the algorithms can be applied. */
     private final Graph g;
-    private final Traversing traversing;
+    /** Traversal algorithm for the connectivity algorithm */
+    private final Traversal traversal;
 
-    public Connectivity(Graph g, Traversing traversing) {
+    /** Constructor.
+     * @param g graph to which the algorithms can be applied
+     * @param traversal traversal algorithm used by connectivity algorithms */
+    public Connectivity(Graph g, Traversal traversal) {
         this.g = g;
-        this.traversing = traversing;
+        this.traversal = traversal;
     }
 
+    /** Checks connectivity of the graph
+     * @return true if the graph is connected, false otherwise */
     public boolean isConnected() {
-        int[] visitOrder = traversing.step();
+        int[] visitOrder = traversal.step();
         for(int i = 0; i<g.getNbVertices(); i++) {
-            if(visitOrder[i] == -1) {
+            if(visitOrder[i] == Constants.NOT_VISITED) {
                 return false;
             }
         }

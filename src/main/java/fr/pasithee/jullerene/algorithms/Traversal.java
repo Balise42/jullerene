@@ -4,10 +4,11 @@ import fr.pasithee.jullerene.model.Graph;
 
 import static fr.pasithee.jullerene.model.Constants.NOT_VISITED;
 
-public abstract class Traversing {
+/** Traversal */
+public abstract class Traversal {
     protected final Graph graph;
 
-    public Traversing(Graph graph) {
+    public Traversal(Graph graph) {
         this.graph = graph;
     }
 

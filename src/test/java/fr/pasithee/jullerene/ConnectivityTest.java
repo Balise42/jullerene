@@ -1,7 +1,7 @@
 package fr.pasithee.jullerene;
 
 import fr.pasithee.jullerene.algorithms.Connectivity;
-import fr.pasithee.jullerene.algorithms.Traversing;
+import fr.pasithee.jullerene.algorithms.Traversal;
 import fr.pasithee.jullerene.model.Graph;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ConnectivityTest {
     @Mock
-    private Traversing traversing;
+    private Traversal traversal;
     @Mock
     private Graph graph;
     @InjectMocks
@@ -32,7 +32,7 @@ public class ConnectivityTest {
         visited[0] = 0;
         visited[1] = 1;
         visited[2] = 2;
-        when(traversing.step()).thenReturn(visited);
+        when(traversal.step()).thenReturn(visited);
         when(graph.getNbVertices()).thenReturn(3);
         assertTrue(connectivity.isConnected());
     }
@@ -43,7 +43,7 @@ public class ConnectivityTest {
         visited[0] = 0;
         visited[1] = -1;
         visited[2] = 2;
-        when(traversing.step()).thenReturn(visited);
+        when(traversal.step()).thenReturn(visited);
         when(graph.getNbVertices()).thenReturn(3);
         assertFalse(connectivity.isConnected());
     }

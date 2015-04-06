@@ -2,10 +2,16 @@ package fr.pasithee.jullerene.model;
 
 import java.util.Objects;
 
+/** Edge of a {@link Graph}*/
 public class Edge {
+    /** first endpont of the edge */
     private final Vertex v1;
+    /** second endpoint of the edge */
     private final Vertex v2;
 
+    /** Constructor
+     * @param v1 first endpoint of the edge
+     * @param v2 second endpoint of the edge */
     public Edge(Vertex v1, Vertex v2) {
         this.v1 = v1;
         this.v2 = v2;

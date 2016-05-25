@@ -10,26 +10,14 @@ import java.util.LinkedList;
 import static fr.pasithee.jullerene.model.Constants.NOT_VISITED;
 
 public class BFS extends Traversal {
+
     public BFS(Graph graph) {
         super(graph);
     }
 
     @Override
     protected int[] step(int[] visitOrder) {
-        Deque<Vertex> queue = new LinkedList<>();
-        int lastVisited = -1;
-        for(int i = 0; i<visitOrder.length; i++) {
-            if(visitOrder[i] == NOT_VISITED && queue.isEmpty()) {
-                queue.add(graph.get(i));
-            } else if (visitOrder[i] > lastVisited) {
-                lastVisited = lastVisited + 1;
-            }
-        }
-        if(!queue.isEmpty()) {
-            Vertex start = queue.peek();
-            visitOrder[start.getLabel()] = lastVisited + 1;
-            lastVisited++;
-        }
+        Deque<Vertex> queue = initQueue(visitOrder);
         while(!queue.isEmpty()) {
             Vertex u = queue.pop();
             for(Edge e : graph.getAdjacentEdges(u)) {
@@ -42,5 +30,26 @@ public class BFS extends Traversal {
             }
         }
         return visitOrder;
+    }
+
+    private Deque<Vertex> initQueue(int[] visitOrder) {
+        Deque<Vertex> queue = new LinkedList<>();
+        for(int i = 0; i<visitOrder.length; i++) {
+            if(visitOrder[i] == NOT_VISITED && queue.isEmpty()) {
+                queue.add(graph.get(i));
+            } else if (visitOrder[i] > lastVisited) {
+                lastVisited = visitOrder[i];
+            }
+        }
+        giveFirstVertexVisitOrder(queue, visitOrder);
+        return queue;
+    }
+
+    private void giveFirstVertexVisitOrder(Deque<Vertex> queue, int[] visitOrder) {
+        if(!queue.isEmpty()) {
+            Vertex start = queue.peek();
+            visitOrder[start.getLabel()] = lastVisited + 1;
+            lastVisited++;
+        }
     }
 }

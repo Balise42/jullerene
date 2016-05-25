@@ -1,6 +1,13 @@
 package fr.pasithee.jullerene.model;
 
-import java.util.*;
+import java.util.Map;
+import java.util.List;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Collection;
+import java.util.Objects;
 
 /**
  *  Graph model, no multi-edges, no loops.

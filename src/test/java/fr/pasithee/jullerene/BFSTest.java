@@ -141,9 +141,10 @@ public class BFSTest {
 
     @Test
     public void BFSWithDisconnectedGraphShouldWork() {
-        Graph g = new Graph(6);
+        Graph g = new Graph(7);
         g.addUndirectedEdge(0,1);
         g.addUndirectedEdge(1,2);
+        g.addUndirectedEdge(2,6);
         g.addUndirectedEdge(3,4);
         g.addUndirectedEdge(3,5);
         g.addUndirectedEdge(4, 5);
@@ -152,8 +153,9 @@ public class BFSTest {
         assertEquals(0, result[0]);
         assertEquals(1, result[1]);
         assertEquals(2, result[2]);
-        assertEquals(3, result[3]);
-        assertTrue((result[4] == 4 && result[5] == 5) || (result[4] == 5 && result[5] == 4));
+        assertEquals(3, result[6]);
+        assertEquals(4, result[3]);
+        assertTrue((result[4] == 5 && result[5] == 6) || (result[4] == 6 && result[5] == 5));
     }
 
 }

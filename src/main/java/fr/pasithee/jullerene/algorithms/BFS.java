@@ -2,29 +2,29 @@ package fr.pasithee.jullerene.algorithms;
 
 import fr.pasithee.jullerene.model.Edge;
 import fr.pasithee.jullerene.model.Graph;
-import fr.pasithee.jullerene.model.Vertex;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Map;
 
 import static fr.pasithee.jullerene.model.Constants.NOT_VISITED;
 
-public class BFS extends Traversal {
+public class BFS<T> extends Traversal<T> {
 
-    public BFS(Graph graph) {
+    public BFS(Graph<T> graph) {
         super(graph);
     }
 
     @Override
-    protected int[] step(int[] visitOrder) {
-        Deque<Vertex> queue = initQueue(visitOrder);
+    protected Map<T, Integer> step(Map<T, Integer> visitOrder) {
+        Deque<T> queue = initQueue(visitOrder);
         while(!queue.isEmpty()) {
-            Vertex u = queue.pop();
-            for(Edge e : graph.getAdjacentEdges(u)) {
-                Vertex v = e.getV2();
-                if(visitOrder[v.getLabel()] == NOT_VISITED) {
+            T u = queue.pop();
+            for(Edge<T> e : graph.getOutEdges(u)) {
+                T v = e.getOtherEnd(u);
+                if(visitOrder.get(v) == NOT_VISITED) {
                     queue.addLast(v);
-                    visitOrder[v.getLabel()] = lastVisited + 1;
+                    visitOrder.put(v,lastVisited + 1);
                     lastVisited++;
                 }
             }
@@ -32,23 +32,23 @@ public class BFS extends Traversal {
         return visitOrder;
     }
 
-    private Deque<Vertex> initQueue(int[] visitOrder) {
-        Deque<Vertex> queue = new LinkedList<>();
-        for(int i = 0; i<visitOrder.length; i++) {
-            if(visitOrder[i] == NOT_VISITED && queue.isEmpty()) {
-                queue.add(graph.get(i));
-            } else if (visitOrder[i] > lastVisited) {
-                lastVisited = visitOrder[i];
+    private Deque<T> initQueue(Map<T, Integer> visitOrder) {
+        Deque<T> queue = new LinkedList<>();
+        for(Map.Entry<T, Integer> kv : visitOrder.entrySet()) {
+            if(kv.getValue()== NOT_VISITED && queue.isEmpty()) {
+                queue.add(kv.getKey());
+            } else if (kv.getValue() > lastVisited) {
+                lastVisited = kv.getValue();
             }
         }
         giveFirstVertexVisitOrder(queue, visitOrder);
         return queue;
     }
 
-    private void giveFirstVertexVisitOrder(Deque<Vertex> queue, int[] visitOrder) {
+    private void giveFirstVertexVisitOrder(Deque<T> queue, Map<T, Integer> visitOrder) {
         if(!queue.isEmpty()) {
-            Vertex start = queue.peek();
-            visitOrder[start.getLabel()] = lastVisited + 1;
+            T start = queue.peek();
+            visitOrder.put(start, lastVisited + 1);
             lastVisited++;
         }
     }

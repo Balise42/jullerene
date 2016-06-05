@@ -1,19 +1,22 @@
 package fr.pasithee.jullerene.algorithms;
 
+import fr.pasithee.jullerene.model.EdgeListsGraph;
 import fr.pasithee.jullerene.model.Constants;
 import fr.pasithee.jullerene.model.Graph;
 
-/** Connectivity algorithms for {@link Graph}*/
-public class Connectivity {
-    /** Graph to which the algorithms can be applied. */
-    private final Graph g;
+import java.util.Map;
+
+/** Connectivity algorithms for {@link EdgeListsGraph}*/
+public class Connectivity<T> {
+    /** EdgeListsGraph to which the algorithms can be applied. */
+    private final Graph<T> g;
     /** Traversal algorithm for the connectivity algorithm */
     private final Traversal traversal;
 
     /** Constructor.
      * @param g graph to which the algorithms can be applied
      * @param traversal traversal algorithm used by connectivity algorithms */
-    public Connectivity(Graph g, Traversal traversal) {
+    public Connectivity(Graph<T> g, Traversal traversal) {
         this.g = g;
         this.traversal = traversal;
     }
@@ -21,9 +24,9 @@ public class Connectivity {
     /** Checks connectivity of the graph
      * @return true if the graph is connected, false otherwise */
     public boolean isConnected() {
-        int[] visitOrder = traversal.step();
-        for(int i = 0; i<g.getNbVertices(); i++) {
-            if(visitOrder[i] == Constants.NOT_VISITED) {
+        Map<T, Integer> visitOrder = traversal.step();
+        for(T node : g.getVertices()) {
+            if(visitOrder.get(node) ==  Constants.NOT_VISITED) {
                 return false;
             }
         }

@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -46,36 +45,35 @@ public class BFSTest {
 
     @Test
     public void BFSStepWithSingleNodeGraphShouldWork() {
-        Graph g = new EdgeListsGraph<Node>();
-        Map<Node, Integer> expected = new HashMap<Node, Integer>();
-        BFS<Node> bfs = new BFS<Node>(g);
+        Graph<Node> g = new EdgeListsGraph<>();
+        Map<Node, Integer> expected = new HashMap<>();
+        BFS<Node> bfs = new BFS<>(g);
         assertEquals(expected, bfs.step());
     }
 
     @Test
     public void BFSStepWithNoNodeGraphShouldWork() {
-        Graph g = new EdgeListsGraph<Node>();
-        Map<Node, Integer> expected = new HashMap<Node, Integer>();
-        BFS<Node> bfs = new BFS<Node>(g);
+        Graph<Node> g = new EdgeListsGraph<>();
+        Map<Node, Integer> expected = new HashMap<>();
+        BFS<Node> bfs = new BFS<>(g);
         assertEquals(expected, bfs.step());
     }
 
     @Test
     public void BFSStepWithTwoNodesOneUndirectedEdgeShouldWork() {
-        Graph<Node> g = new EdgeListsGraph<Node>();
+        Graph<Node> g = new EdgeListsGraph<>();
         g.setUndirected(true);
 
         String[] values = new String[]{"v0", "v1"};
         List<Node> nodes = NodeFactory.createNodes(values);
 
         g.addEdge(nodes.get(0), nodes.get(1));
-        Map<Node, Integer> expected = new HashMap<Node, Integer>();
+        Map<Node, Integer> expected = new HashMap<>();
         expected.put(nodes.get(0), 0);
         expected.put(nodes.get(1), 1);
-        BFS<Node> bfs = new BFS<Node>(g);
+        BFS<Node> bfs = new BFS<>(g);
         assertEquals(expected, bfs.step());
     }
-
 
     @Test
     public void BFSStepWithK33ShouldWork() {

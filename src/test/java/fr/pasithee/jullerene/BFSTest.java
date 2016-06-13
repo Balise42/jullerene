@@ -48,9 +48,9 @@ public class BFSTest {
     }
 
 
-    /*@Test
+    @Test
     public void BFSStepWithK33ShouldWork() {
-        Graph<Node> g = new EdgeListsGraph<Node>();
+        Graph<Node> g = new EdgeListsGraph<>();
 
         String[] values = new String[]{"v0", "v1", "v2", "v3", "v4", "v5"};
         List<Node> nodes = NodeFactory.createNodes(values);
@@ -64,56 +64,66 @@ public class BFSTest {
         g.addEdge(nodes.get(2), nodes.get(4));
         g.addEdge(nodes.get(2), nodes.get(5));
 
-        Set<Node> expectedFirstStep = new HashSet<>();
-        Set<Node> expectedSecondStep = new HashSet<>();
-        Set<Node> expectedThirdStep = new HashSet<>();
-        expectedFirstStep.add(nodes.get(0));
-        expectedSecondStep.add(nodes.get(3));
-        expectedSecondStep.add(nodes.get(4));
-        expectedSecondStep.add(nodes.get(5));
-        expectedThirdStep.add(nodes.get(1));
-        expectedThirdStep.add(nodes.get(2));
-        BFS<Node> bfs = new BFS<Node>(g);
+        BFS<Node> bfs = new BFS<>(g);
 
         Map<Node, Integer> result = bfs.step();
-
-        Set<Node> resultFirstStep = new HashSet<>();
-        Set<Node> resultSecondStep = new HashSet<>();
-        Set<Node> resultThirdStep = new HashSet<>();
-        for(int i = 0;i<6; i++) {
-            if(result.get(nodes.get(i)) == 0) {
-                resultFirstStep.add(nodes.get(i));
-            } else if(result.get(nodes.get(i)) <= 3) {
-                resultSecondStep.add(nodes.get(i));
-            } else {
-                resultThirdStep.add(nodes.get(i));
+        int firstNodeIndex = -1;
+        for (Map.Entry<Node, Integer> kv : result.entrySet()) {
+            if (kv.getValue() == 0) {
+                firstNodeIndex = nodes.indexOf(kv.getKey());
+                break;
             }
         }
-        assertEquals(expectedFirstStep, resultFirstStep);
-        assertEquals(expectedSecondStep, resultSecondStep);
-        assertEquals(expectedThirdStep, resultThirdStep);
-    }*/
 
-    /*@Test
-    public void BFSStepWithDisconnectedGraphShouldWork() {
-        EdgeListsGraph g = new EdgeListsGraph(6);
-        g.addUndirectedEdge(0,1);
-        g.addUndirectedEdge(1,2);
-        g.addUndirectedEdge(3,4);
-        g.addUndirectedEdge(3,5);
-        g.addUndirectedEdge(4,5);
-        int[] expected = new int[6];
-        expected[0] = 0;
-        expected[1] = 1;
-        expected[2] = 2;
-        expected[3] = -1;
-        expected[4] = -1;
-        expected[5] = -1;
-        BFS bfs = new BFS(g);
-        assertArrayEquals(expected, bfs.step());
+        assertTrue(firstNodeIndex != -1);
+
+        if (firstNodeIndex < 3) {
+            assertTrue(firstNodeIndex == 0 || (result.get(nodes.get(0)) >= 4));
+            assertTrue(firstNodeIndex == 1 || (result.get(nodes.get(1)) >= 4));
+            assertTrue(firstNodeIndex == 2 || (result.get(nodes.get(2)) >= 4));
+            assertTrue(result.get(nodes.get(3)) > 0 && result.get(nodes.get(3)) < 4);
+            assertTrue(result.get(nodes.get(4)) > 0 && result.get(nodes.get(4)) < 4);
+            assertTrue(result.get(nodes.get(5)) > 0 && result.get(nodes.get(5)) < 4);
+        } else {
+            assertTrue(firstNodeIndex == 3 || (result.get(nodes.get(3)) >= 4));
+            assertTrue(firstNodeIndex == 4 || (result.get(nodes.get(4)) >= 4));
+            assertTrue(firstNodeIndex == 5 || (result.get(nodes.get(5)) >= 4));
+            assertTrue(result.get(nodes.get(0)) > 0 && result.get(nodes.get(0)) < 4);
+            assertTrue(result.get(nodes.get(1)) > 0 && result.get(nodes.get(1)) < 4);
+            assertTrue(result.get(nodes.get(2)) > 0 && result.get(nodes.get(2)) < 4);
+        }
     }
 
     @Test
+    public void BFSStepWithDisconnectedGraphShouldWork() {
+        Graph<Node> g = new EdgeListsGraph<>();
+
+        String[] values = new String[]{"v0", "v1", "v2", "v3", "v4", "v5"};
+        List<Node> nodes = NodeFactory.createNodes(values);
+        g.addEdge(nodes.get(0), nodes.get(1));
+        g.addEdge(nodes.get(1), nodes.get(2));
+        g.addEdge(nodes.get(3), nodes.get(4));
+        g.addEdge(nodes.get(3), nodes.get(5));
+        g.addEdge(nodes.get(4), nodes.get(5));
+
+        BFS<Node> bfs = new BFS<>(g);
+        Map<Node, Integer> result = bfs.step();
+        if (result.get(nodes.get(0)) != -1) {
+            assertTrue(result.get(nodes.get(1)) != -1);
+            assertTrue(result.get(nodes.get(2)) != -1);
+            assertTrue(result.get(nodes.get(3)) == -1);
+            assertTrue(result.get(nodes.get(4)) == -1);
+            assertTrue(result.get(nodes.get(5)) == -1);
+        } else {
+            assertTrue(result.get(nodes.get(1)) == -1);
+            assertTrue(result.get(nodes.get(2)) == -1);
+            assertTrue(result.get(nodes.get(3)) != -1);
+            assertTrue(result.get(nodes.get(4)) != -1);
+            assertTrue(result.get(nodes.get(5)) != -1);
+        }
+    }
+
+    /*@Test
     public void traversalWithK33ShouldWork() {
         EdgeListsGraph g = new EdgeListsGraph(6);
         g.addUndirectedEdge(0, 3);

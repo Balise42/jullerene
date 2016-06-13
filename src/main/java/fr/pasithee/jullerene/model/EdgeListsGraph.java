@@ -110,8 +110,9 @@ public class EdgeListsGraph<T> extends Graph<T> {
         List<T> vertices = new ArrayList<T>();
         for (Edge<T> e : edges) {
             for (T node : e.getVertices()) {
-                if (!vertices.contains(node))
-                vertices.add(node);
+                if (!vertices.contains(node)) {
+                    vertices.add(node);
+                }
             }
         }
         return vertices;

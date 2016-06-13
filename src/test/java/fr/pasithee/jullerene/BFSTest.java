@@ -5,6 +5,7 @@ import fr.pasithee.jullerene.model.EdgeListsGraph;
 import fr.pasithee.jullerene.model.Graph;
 import fr.pasithee.jullerene.util.Node;
 import fr.pasithee.jullerene.util.NodeFactory;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
@@ -14,6 +15,34 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class BFSTest {
+
+    List<Node> nodes;
+    Graph<Node> k33;
+    Graph<Node> disconnected;
+
+    @Before
+    public void setUp() {
+        String[] values = new String[]{"v0", "v1", "v2", "v3", "v4", "v5"};
+        nodes = NodeFactory.createNodes(values);
+
+        k33 = new EdgeListsGraph<>();
+        k33.addEdge(nodes.get(0), nodes.get(3));
+        k33.addEdge(nodes.get(0), nodes.get(4));
+        k33.addEdge(nodes.get(0), nodes.get(5));
+        k33.addEdge(nodes.get(1), nodes.get(3));
+        k33.addEdge(nodes.get(1), nodes.get(4));
+        k33.addEdge(nodes.get(1), nodes.get(5));
+        k33.addEdge(nodes.get(2), nodes.get(3));
+        k33.addEdge(nodes.get(2), nodes.get(4));
+        k33.addEdge(nodes.get(2), nodes.get(5));
+
+        disconnected = new EdgeListsGraph<>();
+        disconnected.addEdge(nodes.get(0), nodes.get(1));
+        disconnected.addEdge(nodes.get(1), nodes.get(2));
+        disconnected.addEdge(nodes.get(3), nodes.get(4));
+        disconnected.addEdge(nodes.get(3), nodes.get(5));
+        disconnected.addEdge(nodes.get(4), nodes.get(5));
+    }
 
     @Test
     public void BFSStepWithSingleNodeGraphShouldWork() {
@@ -50,21 +79,7 @@ public class BFSTest {
 
     @Test
     public void BFSStepWithK33ShouldWork() {
-        Graph<Node> g = new EdgeListsGraph<>();
-
-        String[] values = new String[]{"v0", "v1", "v2", "v3", "v4", "v5"};
-        List<Node> nodes = NodeFactory.createNodes(values);
-        g.addEdge(nodes.get(0), nodes.get(3));
-        g.addEdge(nodes.get(0), nodes.get(4));
-        g.addEdge(nodes.get(0), nodes.get(5));
-        g.addEdge(nodes.get(1), nodes.get(3));
-        g.addEdge(nodes.get(1), nodes.get(4));
-        g.addEdge(nodes.get(1), nodes.get(5));
-        g.addEdge(nodes.get(2), nodes.get(3));
-        g.addEdge(nodes.get(2), nodes.get(4));
-        g.addEdge(nodes.get(2), nodes.get(5));
-
-        BFS<Node> bfs = new BFS<>(g);
+        BFS<Node> bfs = new BFS<>(k33);
 
         Map<Node, Integer> result = bfs.step();
         int firstNodeIndex = -1;
@@ -96,17 +111,7 @@ public class BFSTest {
 
     @Test
     public void BFSStepWithDisconnectedGraphShouldWork() {
-        Graph<Node> g = new EdgeListsGraph<>();
-
-        String[] values = new String[]{"v0", "v1", "v2", "v3", "v4", "v5"};
-        List<Node> nodes = NodeFactory.createNodes(values);
-        g.addEdge(nodes.get(0), nodes.get(1));
-        g.addEdge(nodes.get(1), nodes.get(2));
-        g.addEdge(nodes.get(3), nodes.get(4));
-        g.addEdge(nodes.get(3), nodes.get(5));
-        g.addEdge(nodes.get(4), nodes.get(5));
-
-        BFS<Node> bfs = new BFS<>(g);
+        BFS<Node> bfs = new BFS<>(disconnected);
         Map<Node, Integer> result = bfs.step();
         if (result.get(nodes.get(0)) != -1) {
             assertTrue(result.get(nodes.get(1)) != -1);

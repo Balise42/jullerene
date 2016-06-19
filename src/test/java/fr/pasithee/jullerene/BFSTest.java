@@ -64,7 +64,7 @@ public class BFSTest {
     @Test
     public void BFSStepWithTwoNodesOneUndirectedEdgeShouldWork() {
         Graph<Node> g = new EdgeListsGraph<>();
-        g.setUndirected(true);
+        g.setDirected(false);
 
         String[] values = new String[]{"v0", "v1"};
         List<Node> nodes = NodeFactory.createNodes(values);

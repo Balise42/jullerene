@@ -33,7 +33,7 @@ public abstract class Graph<T> {
         return this.directed;
     }
 
-    public void setUndirected(boolean directed) {
+    public void setDirected(boolean directed) {
         this.directed = directed;
     }
 
